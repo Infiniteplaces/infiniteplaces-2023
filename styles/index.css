@@ -1,0 +1,137 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  @font-face {
+    font-family: 'Necto-Mono';
+    src: url('/fonts/Necto-Mono.woff') format('woff'),
+      url('/fonts/Necto-Mono.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Necto-Mono-Bold';
+    src: url('/fonts/Necto-Mono.woff') format('woff'),
+      url('/fonts/Necto-Mono.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Necto-Mono-Italic';
+    src: url('/fonts/Necto-Mono.woff') format('woff'),
+      url('/fonts/Necto-Mono.woff2') format('woff2');
+    font-weight: 400;
+    font-style: italic;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'VG5000';
+    src: url('/fonts/VG5000-Regular.woff') format('woff'),
+      url('/fonts/VG5000-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  * {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  }
+
+  html,
+  body {
+    overscroll-behavior: none;
+  }
+
+  html {
+    font-size: 10px;
+  }
+
+  body {
+    font-size: 1.6rem;
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }
+
+  [data-router-view] {
+    width: 100%;
+    overflow: hidden;
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  [data-webgl] canvas {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+@layer utilities {
+  .no-scrollbar {
+    /* Hide scrollbar for Chrome, Safari and Opera */
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* Hide scrollbar for IE, Edge and Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+
+  .h-header {
+    @apply h-60 s:h-65 m:h-80 l:h-90 xl:h-100;
+  }
+
+  .px {
+    @apply px-10 s:px-15 m:px-25 l:px-35 xl:px-40;
+  }
+
+  .grid-template {
+    @apply grid-cols-12 gap-x-[calc(40/1536*100vw)];
+  }
+
+  .text-26\/40 {
+    @apply text-26 s:text-28 m:text-32 l:text-36 xl:text-40;
+  }
+
+  .fill-fg {
+    fill: var(--color-fg);
+  }
+}
+
+[data-sqzbx-button][aria-expanded='true'] div {
+  transform: rotate(-180deg);
+}
+
+[data-sqzbx-panel][aria-hidden='true'] {
+  max-height: 0 !important;
+}
+
+@screen m {
+  [data-sqzbx-panel][aria-hidden='true'] {
+    max-height: unset !important;
+  }
+}
+
+.iframe iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.is-hidden {
+  @apply opacity-0 -translate-y-5;
+}
+
+.is-hidden * {
+  pointer-events: none !important;
+}

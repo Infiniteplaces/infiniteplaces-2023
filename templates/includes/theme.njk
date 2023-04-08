@@ -1,0 +1,12 @@
+{% macro theme(isDarkModeEnabled) %}
+  class="text-fg bg-bg"
+  style="
+    --color-fg: {{ '#F4F2F0' if isDarkModeEnabled else '#37210B' }};
+    --color-bg: {{ '#37210B' if isDarkModeEnabled else '#F4F2F0' }};
+    --color-gg: {{ '#888e00' if isDarkModeEnabled else '#F4F2F0' }};
+    --color-gb: {{ '#0041B8' if isDarkModeEnabled else '#F4F2F0' }};
+    --color-gp: {{ '#9f8f92' if isDarkModeEnabled else '#F4F2F0' }};
+    --color-pi: {{ '#9f8f92' if isDarkModeEnabled else '#e9a9a9' }};
+    --color-gr: {{ '#57d524' if isDarkModeEnabled else '#F4F2F0' }};
+  "
+{% endmacro %}

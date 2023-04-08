@@ -1,0 +1,31 @@
+---
+layout: base.njk
+permalink: /post/{{ p.slug }}/
+pagination:
+  alias: p
+  data: posts
+  size: 1
+eleventyComputed:
+  seo:
+    documentTitle: "{{ p.title }} — {{ site.metaTitle }}"
+    title: "{{ p.title }} — {{ site.metaTitle }}"
+    description: "{{ p.metaDescription or site.metaDescription }}"
+    imageUrl: "{{ p.metaImage.asset.url or site.metaImage.url }}"
+    imageWidth: "{{ p.metaImage.asset.metadata.dimensions.width or site.metaImage.metadata.dimensions.width }}"
+    imageHeight: "{{ p.metaImage.asset.metadata.dimensions.height or site.metaImage.metadata.dimensions.height }}"
+---
+{% from 'theme.njk' import theme %}
+
+<div data-router-view="default" {{ theme() }}>
+  {% if p.type == 'caseStudy' %}
+    {% include 'header.njk' %}
+    <div data-content>
+      {% include 'caseStudy.njk' %}
+      {% include 'footer.njk' %}
+    </div>
+  {% elif p.type == 'media' %}
+    <div data-content>
+      {% include 'modal.njk' %}
+    </div>
+  {% endif %}
+</div>

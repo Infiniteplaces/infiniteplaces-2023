@@ -1,0 +1,81 @@
+{% macro headerBar(main, slug) %}
+  <div
+    class="{% classList
+      'h-header flex items-center justify-between font-nb text-26/40 leading-100',
+      'transition duration-300 ease-out-cubic' if main
+    %}"
+    {% if main %}
+      data-scroll-padding-top
+    {% endif %}
+  >
+    <a 
+      class="pointer-events-auto font-nb"
+      href="/"
+<<<<<<< HEAD
+    >{{ 'INFINITE PLACES' | split | safe }}</a>
+=======
+    >{{ 'ROMANCE OFFICE' | split | safe }}</a>
+>>>>>>> bea035ef63061d84d6b43f197d3520cd3eca6947
+    <nav class="hidden m:flex gap-x-25">
+      {% set hasActiveLink = false %}
+      {% for link in site.navigation %}
+        {% if link.slug == p.slug %}
+          {% set hasActiveLink = true %}
+        {% endif %}
+      {% endfor %}
+      {% for link in site.navigation %}
+        <a
+          class="{% classList
+            'pointer-events-auto hover:opacity-100 focus:opacity-100 transition-opacity duration-500 ease-out-cubic',
+            'opacity-65' if hasActiveLink and link.slug != p.slug
+          %}"
+          href="/{% if not link.isHomepage %}{{ link.slug }}/{% endif %}"
+          {% if link.slug == p.slug %}
+            aria-current="page"
+          {% endif %}
+          data-component="funHover"
+        >
+          {{ link.title | split | safe }}
+        </a>
+      {% endfor %}
+    </nav>
+    <button class="m:hidden w-50 h-50 pointer-events-auto js:header-burger" data-initial-focus>
+      <div class="w-30 relative ml-auto">
+        <div class="space-y-5 js:header-openIcon">
+          <div class="h-3 bg-current js:header-topBun"></div>
+          <div class="h-3 bg-current js:header-patty"></div>
+          <div class="h-3 bg-current js:header-bottomBun"></div>
+        </div>
+        <div class="w-24 h-24 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+          <div class="js:header-closeIcon" style="opacity: 0;">
+            {% include 'xIcon.njk' %}
+          </div>
+        </div>
+      </div>
+    </button>
+  </div>
+{% endmacro %}
+
+<header
+  class="fixed top-0 inset-x-0 w-full px z-9 pointer-events-none"
+  data-component="header"
+>
+  {{ headerBar(true, p.slug) }}
+  <div
+    class="m:hidden fixed inset-0 w-full h-full overflow-hidden z-1 pointer-events-auto js:header-outer"
+    style="opacity: 0; visibility: hidden;"
+  >
+    <div class="relative w-full h-full text-bg bg-fg px js:header-inner">
+      <div class="relative z-1">
+        {{ headerBar(false, p.slug) }}
+      </div>
+      <nav class="absolute inset-0 flex flex-col justify-end gap-y-20 px pb-30 font-nm text-80 leading-100 js:header-nav">
+        {% for link in site.navigation %}
+          <a href="/{% if not link.isHomepage %}{{ link.slug }}/{% endif %}">
+            {{ link.title }}
+          </a>
+        {% endfor %}
+      </nav>
+    </div>
+  </div>
+</header>

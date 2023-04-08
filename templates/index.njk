@@ -1,0 +1,23 @@
+---
+layout: base.njk
+title: Home
+eleventyComputed:
+  seo:
+    documentTitle: "{{ site.metaTitle }}"
+    title: "{{ site.metaTitle }}"
+    description: "{{ site.metaDescription }}"
+    imageUrl: "{{ site.metaImage.url }}"
+    imageWidth: "{{ site.metaImage.metadata.dimensions.width }}"
+    imageHeight: "{{ site.metaImage.metadata.dimensions.height }}"
+---
+{% from 'theme.njk' import theme %}
+
+{% set p = site.homepage %}
+
+<div data-router-view="default" {{ theme(p.isDarkModeEnabled) }}>
+  {% include 'header.njk' %}
+  <div data-content>
+    {% include 'page.njk' %}
+    {% include 'footer.njk' %}
+  </div>
+</div>
