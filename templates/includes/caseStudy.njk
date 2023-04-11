@@ -1,0 +1,101 @@
+{% from 'lazy.macro.njk' import lazy %}
+
+{% set hasHero = p.heroImageDesktop.asset or p.heroImageMobile.asset %}
+
+<div class="pb-80 m:pb-115 l:pb-150"
+  {% if hasHero %}
+    data-component="caseStudy"
+  {% endif %}
+>
+  {% if hasHero %}
+    <div
+      class="h-screen overflow-hidden js-hero"
+      data-theme="{{ p.heroNavTextColor }}"
+    >
+      {% if p.heroImageDesktop.asset %}
+        {{ lazy(
+          type = 'image',
+          asset = p.heroImageDesktop.asset,
+          alt = p.heroImageDesktop.alt,
+          cx = 'hidden m:block relative w-full h-full' if p.heroImageMobile.asset else 'relative w-full h-full'
+        ) }}
+      {% endif %}
+      {% if p.heroImageMobile.asset %}
+        {{ lazy(
+          type = 'image',
+          asset = p.heroImageMobile.asset,
+          alt = p.heroImageMobile.alt,
+          width = 768,
+          cx = 'm:hidden relative w-full h-full' if p.heroImageDesktop.asset else 'relative w-full h-full'
+        ) }}
+      {% endif %}
+    </div>
+  {% endif %}
+  <div class="{% classList
+    'm:grid grid-template pb-80 m:pb-115 l:pb-150 px',
+    'pt-40 s:pt-60 m:pt-80 l:pt-100' if hasHero else 'pt-80 s:pt-120 m:pt-160 l:pt-200'
+  %}">
+    <h1 class="col-start-3 col-span-6 font-mono text-30 xs:text-36 s:text-45 m:text-55 l:text-65 leading-115 mb-20 m:mb-30 l:mb-40">
+      {{ p.title }}
+    </h1>
+    {% if p.introText %}
+      <div class="col-start-4 col-span-6 px-30 m:px-0 mb-40 m:mb-0">
+        {{ p.introText | blocksToHtml('editorialText') | safe }}
+      </div>
+    {% endif %}
+    <dl class="col-start-11 col-span-2 m:pt-18 text-16 m:text-18 l:text-20 leading-115 tracking-[0.01em] px-30 m:px-0">
+      {% if p.client %}
+        <dt class="opacity-65 mb-6">Client</dt>
+        <dd class="mb-20 m:mb-25 l:mb-30">
+          {{ p.client | blocksToHtml('metadata') | safe }}
+        </dd>
+      {% endif %}
+      {% if p.collaborators %}
+        <dt class="opacity-65 mb-6">Collaborators</dt>
+        <dd class="mb-20 m:mb-25 l:mb-30">
+          {{ p.collaborators | blocksToHtml('metadata') | safe }}
+        </dd>
+      {% endif %}
+      {% if p.location %}
+        <dt class="opacity-65 mb-6">Location</dt>
+        <dd class="mb-20 m:mb-25 l:mb-30">{{ p.location }}</dd>
+      {% endif %}
+      {% if p.taxonomies.list | length %}
+        <dt class="opacity-65 mb-6">{{ p.taxonomies.title }}</dt>
+        <dd class="mb-20 m:mb-25 l:mb-30">
+          <ul class="space-y-6">
+            {% for tax in p.taxonomies.list %}
+              {% if tax._type == 'collection' and tax.items | length %}
+                <li>
+                  <a href="/collections/{{ tax.slug }}/">
+                    {{ tax.title }}
+                  </a>
+                </li>
+              {% else %}
+                <li>{{ tax.title }}</li>
+              {% endif  %}
+            {% endfor %}
+          </ul>
+        </dd>
+      {% endif %}
+      {% if p.year %}
+        <dt class="opacity-65 mb-6">Year</dt>
+        <dd>{{ p.year }}</dd>
+      {% endif %}
+    </dl>
+  </div>
+  {% for module in p.modules %}
+    {% set moduleType = module._type %}
+    {% set moduleTemplate %}
+      {% include moduleType + '.njk' ignore missing %}
+    {% endset %}
+    {% if moduleTemplate | trim | length %}
+      {{ moduleTemplate | safe }}
+    {% else %}
+      <p class="text-40 my-100">{{ moduleType }}<p>
+    {% endif %}
+  {% endfor %}
+  {% if p.related.posts | length %}
+    {% include 'related.njk' %}
+  {% endif %}
+</div>

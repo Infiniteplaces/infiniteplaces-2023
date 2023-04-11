@@ -1,0 +1,38 @@
+{% from 'lazy.macro.njk' import lazy %}
+
+<div class="fixed inset-0 w-full h-full z-10">
+  <div class="w-full h-full bg-black/95"></div>
+  <div class="{% classList
+    'absolute top-35 inset-x-0 px',
+    'bottom-70' if p.caption else 'bottom-35'
+  %}">
+    {{ lazy(
+      type = p.media.type,
+      asset = p.media.asset,
+      alt = p.media.alt,
+      lqip = false,
+      cx = 'relative w-full h-full',
+      fit = 'contain'
+    ) }}
+  </div>
+  {% if p.caption %}
+    <div class="absolute inset-x-0 px bottom-32 text-center text-14 m:text-16 text-white leading-115">
+      {{ p.caption | blocksToHtml('caption') | safe }}
+    </div>
+  {% endif %}
+  <div
+    class="hidden m:block absolute top-0 left-0 pointer-events-none"
+    data-component="modalCursor"
+    style="opacity: 0; visibility: hidden;"
+  >
+    <div class="w-50 h-50 rotate-45">
+      <div class="sr-only">Close</div>
+      {% include 'plusCursorIcon.njk' %}
+    </div>
+  </div>
+  <button class="m:hidden fixed top-10 s:top-15 right-10 s:right-15 w-30 h-30">
+    <div class="text-white w-24 h-24 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+      {% include 'xIcon.njk' %}
+    </div>
+  </button>
+</div>

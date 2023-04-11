@@ -1,0 +1,25 @@
+---
+layout: base.njk
+permalink: /{% if not p.isHomepage %}{{ p.slug }}/{% endif %}{% if p.collectionSlug %}{{ p.collectionSlug }}/{% endif %}
+pagination:
+  alias: p
+  data: pages
+  size: 1
+eleventyComputed:
+  seo:
+    documentTitle: "{{ p.title }} — {{ site.metaTitle }}"
+    title: "{{ p.title }} — {{ site.metaTitle }}"
+    description: "{{ p.metaDescription or site.metaDescription }}"
+    imageUrl: "{{ p.metaImage.asset.url or site.metaImage.url }}"
+    imageWidth: "{{ p.metaImage.asset.metadata.dimensions.width or site.metaImage.metadata.dimensions.width }}"
+    imageHeight: "{{ p.metaImage.asset.metadata.dimensions.height or site.metaImage.metadata.dimensions.height }}"
+---
+{% from 'theme.njk' import theme %}
+
+<div data-router-view="default" {{ theme(p.isDarkModeEnabled) }}>
+  {% include 'header.njk' %}
+  <div data-content>
+    {% include 'page.njk' %}
+    {% include 'footer.njk' %}
+  </div>
+</div>
